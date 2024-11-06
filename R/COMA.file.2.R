@@ -1,15 +1,26 @@
 #' COMA.file.2
 #'
-#' I need a function that will create input file 2 for COMA that has the pedigree kinship matrix. The only modification to Amatrix() is that the NA handling and converting to 0 is handled by this function. The input pedigree.data is made outside the function as naming conventions (text separators) are not consistent, requiring the user to make a dataframe with three columns c("id", "parent1", "parent2").
-#' @param pedigree.data Pedigree information for StageWise.
-#' @param ploidy Ploidy of the species.
-#' @return File type 2 required by COMA.
+#' Creates input file 2 for COMA, containing the pedigree kinship matrix.
+#' Handles missing values in `pedigree.data` by replacing `NA`s with `0`s.
+#'
+#' @param pedigree.data A data frame with columns "id", "parent1", and "parent2" for pedigree information.
+#' @param ploidy Integer specifying the ploidy level of the species (default is 2).
+#' @return A kinship matrix representing File type 2 for COMA, saved as "COMA_file_2.csv".
+#'
+#' @importFrom AGHmatrix Amatrix
+#' @importFrom utils write.csv
 #' @export
-COMA.file.2 = function(pedigree.data, ploidy = 2) {
+
+COMA.file.2 <- function(pedigree.data, ploidy = 2) {
+
+  # Replace NA values with 0 to handle missing parent information
   pedigree.data[is.na(pedigree.data)] <- 0
-  A = Amatrix(data = pedigree.data, ploidy = ploidy)
 
-  write.csv(A, file = "COMA_file_2.csv", quote = F)
+  # Generate the kinship matrix using the Amatrix function with specified ploidy
+  A <- AGHmatrix::Amatrix(data = pedigree.data, ploidy = ploidy)
 
-  return(A)
+  # Write the resulting matrix to a CSV file
+  utils::write.csv(A, file = "COMA_file_2.csv", quote = FALSE)
+
+  return(A)  # Return the kinship matrix
 }

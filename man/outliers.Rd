@@ -7,13 +7,15 @@
 outliers(data, trait)
 }
 \arguments{
-\item{data}{Raw input file to be cleaned.}
+\item{data}{Dataframe containing raw input data to be cleaned.}
 
-\item{trait}{Character of trait(s) to be cleaned in the input file.}
+\item{trait}{Character vector of trait(s) to be cleaned in the input file.}
 }
 \value{
-Dataframe that is properly formated and has had the yield calculated.
+Dataframe with outliers set to NA for the specified traits.
 }
 \description{
-Interactive detection of outliers based on histograms. Writes a new dataframe with erroneous data containing plots set to NA. Multiple traits can be evaluated at once using trait = c().
+Detects outliers interactively by displaying histograms of specified traits, allowing the user to set upper and lower bounds iteratively.
+The function updates the data by removing outliers and sets the values of flagged outlier data to NA.
+Multiple traits can be evaluated simultaneously by passing them as a character vector in \code{trait}.
 }

@@ -7,11 +7,15 @@
 nursery_constraints(df, nursery.rows)
 }
 \arguments{
-\item{df}{Dataframe from OMA with the proposed matings.}
+\item{df}{Data frame from OMA with the proposed matings. Must include a \code{value} column indicating percent contribution of each cross.}
+
+\item{nursery.rows}{Integer specifying the total nursery rows available for allocation.}
 }
 \value{
-Crosses and how many nursery rows should be allocated to each.
+A data frame indicating each cross and the number of nursery rows allocated to each.
 }
 \description{
-oma and conversely oma_reduced returns the percent contribution for each cross to the next cycle. In a breeding program you are constrained by available resources in regards to the number of available rows. This returns the allocation of rows to each biparental cross at either the DH induction stage or the ear to row generational advancement stage. It is assumed that the generation of the bi-parental crosses is not a limiting factor.
+This function allocates nursery rows to each biparental cross based on their percent contribution (\code{value}) to the next cycle.
+Allocation stops once the specified number of \code{nursery.rows} has been reached.
+This function is used for either the DH induction stage or the ear-to-row generational advancement stage, where generation of bi-parental crosses is not limiting.
 }

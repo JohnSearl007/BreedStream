@@ -16,25 +16,25 @@ oma_reduced(
 )
 }
 \arguments{
-\item{geno.file}{Genotype information for COMA.}
+\item{dF}{Numeric vector of length 2 indicating inbreeding rate constraints for OMA. Defaults to c(0.01, 0.01).}
 
-\item{kinship.file}{Kinship matrix for COMA.}
+\item{geno.file}{File path for genotype data to be used in OMA.}
 
-\item{ploidy}{Ploidy of species.}
+\item{kinship.file}{File path for kinship matrix to be used in OMA.}
 
-\item{selection.intensity}{The top percent of parents to consider using for large sets of germplasm.}
+\item{ploidy}{Integer indicating ploidy level of the species. Defaults to 2.}
 
-\item{solver}{The solver COMA should utilize.}
+\item{selection.intensity}{Numeric value representing the proportion of top parents to select based on OCS. Defaults to 0.10 (top 10\%).}
 
-\item{dF.adapt}{If the specified dF does not find a solution how should COMA proceed.}
+\item{solver}{Character string specifying the solver COMA should utilize, e.g., "ECOS".}
 
-\item{base}{Are the parents in question inbreds and COMA should use random mating.}
+\item{dF.adapt}{List specifying adaptive parameters for \code{dF} if the initial value does not yield a solution (e.g., list(step = 0.005, max = 1)).}
 
-\item{df}{Inbreeding rate constraints.}
+\item{base}{Character indicating if the base population consists of random matings ("RM") or inbred lines.}
 }
 \value{
-OMA output.
+A data frame containing the OMA output with optimal mating combinations.
 }
 \description{
-When the number of parents results in too many pairwise mating combinations to evaluate (due to RAM), this function will first perform OCS and identify the top parental candidates. Then using the OCS output OMA will be conducted in order to find the best matings.
+This function performs an optimized mating allocation (OMA) with reduced computational demands by selecting a top subset of parental candidates via optimal contribution selection (OCS) before running OMA. This is useful when a high number of parent combinations would otherwise exceed memory constraints.
 }

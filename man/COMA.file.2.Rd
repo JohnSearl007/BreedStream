@@ -7,13 +7,14 @@
 COMA.file.2(pedigree.data, ploidy = 2)
 }
 \arguments{
-\item{pedigree.data}{Pedigree information for StageWise.}
+\item{pedigree.data}{A data frame with columns "id", "parent1", and "parent2" for pedigree information.}
 
-\item{ploidy}{Ploidy of the species.}
+\item{ploidy}{Integer specifying the ploidy level of the species (default is 2).}
 }
 \value{
-File type 2 required by COMA.
+A kinship matrix representing File type 2 for COMA, saved as "COMA_file_2.csv".
 }
 \description{
-I need a function that will create input file 2 for COMA that has the pedigree kinship matrix. The only modification to Amatrix() is that the NA handling and converting to 0 is handled by this function. The input pedigree.data is made outside the function as naming conventions (text separators) are not consistent, requiring the user to make a dataframe with three columns c("id", "parent1", "parent2").
+Creates input file 2 for COMA, containing the pedigree kinship matrix.
+Handles missing values in \code{pedigree.data} by replacing \code{NA}s with \code{0}s.
 }

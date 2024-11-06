@@ -7,13 +7,16 @@
 model.terms(Fixed, Random)
 }
 \arguments{
-\item{Fixed}{Character of the Fixed Effects for your model.}
+\item{Fixed}{Character vector of the fixed effects for the model (e.g., c("env", "block")).}
 
-\item{Random}{Character of the Random Effects for your model.}
+\item{Random}{Character vector of the random effects for the model (e.g., c("genotype")).}
 }
 \value{
-Dataframe that helps handle StageWise model syntax.
+A data frame with columns for the term names, their fixed/random designation, and factor status,
+formatted for StageWise compatibility.
 }
 \description{
-StageWise requires the model terms be passed to the various functions in specific formatting. This includes the input data files. This function allows the user to enter the model in a more straight forward manner and have the formatting handled for you.
+Prepares the model terms required for StageWise functions, ensuring that the formatting aligns with the specific syntax
+expectations of StageWise. This function allows users to specify fixed and random effects in a straightforward way,
+and it handles the necessary formatting automatically.
 }

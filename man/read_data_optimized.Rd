@@ -18,29 +18,30 @@ read_data_optimized(
 )
 }
 \arguments{
-\item{geno.file}{Genotype information for COMA.}
+\item{geno.file}{Character. Path to the genotype file for COMA.}
 
-\item{kinship.file}{Kinship matrix for COMA.}
+\item{kinship.file}{Character. Path to the kinship matrix for COMA.}
 
-\item{ploidy}{Ploidy of species.}
+\item{ploidy}{Numeric. Ploidy level of the species.}
 
-\item{sex}{Sex arguement for COMA.}
+\item{sex}{Dataframe or NULL. Contains 'id' and 'female' columns for COMA (optional).}
 
-\item{matings}{Matings arguement for COMA.}
+\item{matings}{Character or Dataframe. Specifies mating pairs; can be "none" or "all" for default options.}
 
-\item{standardize}{Should COMA standardize.}
+\item{standardize}{Logical. If TRUE, standardizes the genetic merit.}
 
-\item{n.core}{The number of cores for parelle processing.}
+\item{n.core}{Integer. Number of cores for parallel processing.}
 
-\item{partition}{Partition arguement for COMA.}
+\item{partition}{Logical. Argument passed to COMA.}
 
-\item{chunk_size}{How many matings pairwise combinations can be handled per core.}
+\item{chunk_size}{Integer. Number of mating pairs to process per core in each chunk.}
 
-\item{result_file}{Filename for the output.}
+\item{result_file}{Character. Filename for output.}
 }
 \value{
-Input data object for COMA.
+List containing the kinship matrix \code{K}, parental data \code{parents}, and mating data \code{matings}.
 }
 \description{
-The read_data() function from COMA, presents limitations for large datasets due to the way that it utilizes RAM. The read_data_optimized() function features the same functionality and output as read_data() but breaks the calculation of merit for the desired matings into chunks and writes the intermediary output to disk for better memory allocation.
+This function optimizes the \code{read_data()} functionality from COMA for large datasets by processing mating merit calculations in chunks,
+reducing memory usage by saving intermediary results to disk. The output is compatible with COMA's kinship matrix and genetic merit calculations.
 }

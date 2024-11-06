@@ -7,11 +7,12 @@
 \method{plot}{coordinates}(Field.Map)
 }
 \arguments{
-\item{Field.Map}{CSV file of plots laid out as the field is.}
+\item{Field.Map}{CSV file with plots laid out in field order.}
 }
 \value{
-Dataframe of the plots and their range and row coordinates.
+Dataframe containing plot numbers and their respective range and row coordinates.
 }
 \description{
-This function can help to part in create a Design File as it takes a CSV Map of Plots laid out in field order (cell A1 is range:row coordinate 1,1) and generates a dataframe with the plot and its' corresponding range and row field coordinates.
+This function assists in creating a Design File by taking a CSV map of plots arranged in field order (with cell A1 representing the range:row coordinate 1,1).
+It generates a dataframe containing each plot with its corresponding range and row field coordinates.
 }

@@ -7,13 +7,22 @@
 model.terms_update(df, Design.File, Fixed, Random)
 }
 \arguments{
-\item{Fixed}{Character of the Fixed Effects for your model.}
+\item{df}{Data frame containing the initial phenotypic information from the Harvest Master system.}
 
-\item{Random}{Character of the Random Effects for your model.}
+\item{Design.File}{Filename (or path) of the design file containing the design features and covariates.}
+
+\item{Fixed}{Character vector specifying the fixed effects for the model.}
+
+\item{Random}{Character vector specifying the random effects for the model.}
 }
 \value{
-Dataframe that helps handle StageWise model syntax.
+A data frame with updated model terms, including design features and covariates for StageWise compatibility.
 }
 \description{
-The input file with the phenotypic information from the Harvest Master does not contain all the experimental design features and desired covariates for the model. The Model Term columns must be updated with the corresponding values, they cannot just remain NA, this is done with the Design File. The Design File must contain columns for; env, plot, range and row.
+Updates the model term columns in the input data frame by joining it with a design file that contains experimental design
+features and covariates. This is necessary as the raw phenotypic data file from Harvest Master may lack these
+experimental design features (e.g., range, row, etc.) which are required for model building.
+}
+\details{
+The design file must include columns: "env", "plot", "range", and "row".
 }

@@ -1,35 +1,35 @@
 #' plot.coordinates
 #'
-#' This function can help to part in create a Design File as it takes a CSV Map of Plots laid out in field order (cell A1 is range:row coordinate 1,1) and generates a dataframe with the plot and its' corresponding range and row field coordinates.
-#' @param Field.Map CSV file of plots laid out as the field is.
-#' @return Dataframe of the plots and their range and row coordinates.
+#' This function assists in creating a Design File by taking a CSV map of plots arranged in field order (with cell A1 representing the range:row coordinate 1,1).
+#' It generates a dataframe containing each plot with its corresponding range and row field coordinates.
+#'
+#' @param Field.Map CSV file with plots laid out in field order.
+#' @return Dataframe containing plot numbers and their respective range and row coordinates.
+#'
+#' @importFrom data.table fread
+#' @importFrom reshape2 melt
 #' @export
+
 plot.coordinates <- function(Field.Map) {
-  # Read the CSV file
-  data <- fread(Field.Map, header = FALSE)
+  # Read the CSV file without headers as the data layout represents coordinates
+  data <- data.table::fread(Field.Map, header = FALSE)
 
-  # Transpose Data
-  data = as.matrix(data)
+  # Convert the data to a matrix to facilitate melting
+  data_matrix <- as.matrix(data)
 
-  # Determine the measure columns (assumes all columns are measure vars)
-  measure_vars <- names(data)
+  # Melt the matrix to long format with range and row coordinates
+  melted_data <- reshape2::melt(data_matrix, varnames = c("range", "row"), value.name = "plot", na.rm = TRUE)
 
-  # Melt the data specifying the measure vars
-  melted_data <- melt(data, measure.vars = measure_vars, variable.name = "Column", value.name = "Value", na.rm = TRUE)
+  # Remove any non-numeric characters from the row values if needed
+  melted_data$row <- gsub("V", "", melted_data$row)
 
-  # Clarify Columns
-  colnames(melted_data) = c("range", "row", "plot")
+  # Filter out border plots ("B") and empty cells
+  melted_data <- melted_data[!melted_data$plot %in% c("B", ""), ]
 
-  # Remove "V" from row
-  melted_data$row = gsub("V","",melted_data$row)
-
-  # Remove Border and Empty Plots
-  melted_data = melted_data[!melted_data$plot == "B" & !melted_data$plot == "",]
-
-  # Formatting of Data
-  melted_data$range = as.integer(melted_data$range)
-  melted_data$row = as.integer(melted_data$row)
-  melted_data$plot = as.character(melted_data$plot)
+  # Convert columns to appropriate data types
+  melted_data$range <- as.integer(melted_data$range)
+  melted_data$row <- as.integer(melted_data$row)
+  melted_data$plot <- as.character(melted_data$plot)
 
   return(melted_data)
 }

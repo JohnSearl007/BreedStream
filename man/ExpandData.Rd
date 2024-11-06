@@ -7,11 +7,11 @@
 ExpandData(data)
 }
 \arguments{
-\item{data}{Input data that has plots missing.}
+\item{data}{A data frame representing a field trial layout, with potential missing plots. Must contain columns named "Row" and "Range".}
 }
 \value{
-Input data with filler plots added where range/row were incomplete.
+A data frame with additional filler plots for a complete grid of rows and ranges.
 }
 \description{
-Makes a full grid so that spatial correction is possible. This is necessary as the ranges and rows of a field trial are not always perfectly filled with plots. In order for spatial correction to work with ASReml R, these ranges and rows must be complete so "filler" plots are created to satisfy this.
+Expands input data to create a complete grid of rows and ranges, filling missing plots for spatial correction.
 }

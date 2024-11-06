@@ -31,55 +31,57 @@ H.Matrix_Optimized(
 )
 }
 \arguments{
-\item{pheno.data}{Phenotype data for StageWise.}
+\item{pheno.data}{Data frame containing phenotype data for StageWise.}
 
-\item{geno.data}{Genotype data for StageWise.}
+\item{geno.data}{Data frame containing genotype data for StageWise.}
 
-\item{pedigree.data}{Pedigree data for StageWise.}
+\item{pedigree.data}{Data frame containing pedigree data for StageWise.}
 
-\item{trait}{Character of trait(s) to pass StageWise.}
+\item{trait}{Character vector of trait(s) to be passed to StageWise.}
 
-\item{Fixed}{Fixed effects to pass StageWise.}
+\item{Fixed}{Formula or list of fixed effects to be passed to StageWise.}
 
-\item{Random}{Random effects to pass StageWise.}
+\item{Random}{Formula or list of random effects to be passed to StageWise.}
 
-\item{blend.lower}{The lower limit of the A matrix contribution for blending.}
+\item{blend.lower}{Lower limit of the A matrix contribution for blending (default is 1e-5).}
 
-\item{blend.upper}{The upper limit of the A matrix contribution for blending.}
+\item{blend.upper}{Upper limit of the A matrix contribution for blending (default is 0.05).}
 
-\item{ploidy}{Ploidy of the species.}
+\item{ploidy}{Integer specifying the ploidy level of the species (default is 2).}
 
-\item{max.iter}{The maxium number of iterations for ASReml.}
+\item{max.iter}{Maximum number of iterations for ASReml (default is 100).}
 
-\item{map}{Whether the genotype data includes map coordinate infromation in the first three columns.}
+\item{map}{Logical; TRUE if genotype data includes map coordinates in the first three columns (default is TRUE).}
 
-\item{dominance}{Should dominance effects be calculated with StageWise.}
+\item{dominance}{Logical; TRUE if dominance effects should be calculated with StageWise (default is FALSE).}
 
-\item{workspace}{Memory allocation arguement for ASReml.}
+\item{workspace}{Memory allocation for ASReml (default is "12Gb").}
 
-\item{pworkspace}{Memory allocation arguement for ASReml.}
+\item{pworkspace}{Memory allocation for ASReml's parallel workspace (default is "12Gb").}
 
-\item{min.minor.allele}{How many individuals must have the minor allele for StageWise.}
+\item{min.minor.allele}{Minimum number of individuals with the minor allele for StageWise (default is 5).}
 
-\item{fix.eff.marker}{Marker effect arguement for StageWise.}
+\item{fix.eff.marker}{Marker effect argument for StageWise.}
 
-\item{covariates}{Covariate arguement for StageWise.}
+\item{covariates}{Covariate argument for StageWise.}
 
-\item{mask}{Should StageWise mask some of the data.}
+\item{mask}{Logical; if TRUE, StageWise masks some of the data.}
 
-\item{method}{Arguement for StageWise.}
+\item{method}{Method argument for StageWise.}
 
-\item{numCores}{How many cores should be used for parrele processing.}
+\item{numCores}{Number of cores for parallel processing (default is 2).}
 
-\item{weight.vector.length}{How many different blending weights should be tested.}
+\item{weight.vector.length}{Number of blending weights to test (default is 2).}
 
-\item{non.add}{How should non additive genetic effects be handled.}
+\item{non.add}{Specifies handling of non-additive genetic effects (default is "none").}
 
-\item{max_global_size}{Memory allocation arguement.}
+\item{max_global_size}{Memory allocation limit for global options (default is 10e+09).}
 }
 \value{
-StageWise prep object that has the optimal blending of the H Matrix.
+A StageWise prep object containing the optimal H Matrix with minimized AIC.
 }
 \description{
-This function tests the proportion of blending to perform in generating the H Matrix so as to minimize the AIC. (If the model does not converge it is more likely an issue of the range of weight values being tested for blending than that of not having the max.iter high enough. If the model does not converge in less than 50 iterations there is generally a bigger issue at hand.)
+Optimizes the blending weight for generating the H Matrix to minimize the AIC, by testing various proportions
+of blending. This function is designed to help select an optimal blending weight for a mixed model in ASReml-R
+based on AIC. Convergence issues are generally related to the blending weight range, not iteration limits.
 }

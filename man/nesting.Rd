@@ -7,15 +7,17 @@
 nesting(df, nest.terms, nest.name)
 }
 \arguments{
-\item{df}{Origin data.}
+\item{df}{Data frame containing the original data.}
 
-\item{nest.terms}{List of character vectors to be nested.}
+\item{nest.terms}{List of character vectors, where each vector contains column names to be nested together.}
 
-\item{nest.name}{Character vector or new nesting term name(s).}
+\item{nest.name}{Character vector of new names for the nested terms.}
 }
 \value{
-Dataframe that helps handle StageWise model syntax.
+A data frame with nested terms created and original columns removed.
 }
 \description{
-In order to handle nesting terms in StageWise you must create a new "composite" term. (Ex. Subblock 5 in Block 2 becomes one term "Subblock_5_Block_2") Therefore I need to handle performing the merging and removal of the old terms. This needs to be handled within the harvest.master function. nest.terms is a list of character vectors and nest.name is just a character vector.
+This function creates composite "nested" terms by merging specified columns in \code{nest.terms} and assigning them a new
+name specified by \code{nest.name}. This allows StageWise to handle nested terms in the format required for modeling.
+For example, if Subblock 5 in Block 2 is nested, it can be represented as "Subblock_5_Block_2".
 }

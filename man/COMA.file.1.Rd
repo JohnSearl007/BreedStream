@@ -17,27 +17,27 @@ COMA.file.1(
 )
 }
 \arguments{
-\item{prep}{StageWise prep object.}
+\item{prep}{A data frame or list containing preprocessed data for StageWise analysis.}
 
-\item{gain.data}{StageWise gain object.}
+\item{gain.data}{A data frame with gain data including index coefficients and trait information.}
 
-\item{geno.data}{Genotype information for StageWise.}
+\item{geno.data}{Genotype information used by StageWise.}
 
-\item{pedigree.data}{Pedigree information for StageWise.}
+\item{pedigree.data}{Pedigree information for individuals in StageWise.}
 
-\item{optimal.weight}{The optimal H Matrix blending weight.}
+\item{optimal.weight}{A numeric value for the optimal H Matrix blending weight.}
 
-\item{ploidy}{Ploidy of the species.}
+\item{ploidy}{Integer specifying the ploidy level of the species (default is 2).}
 
-\item{map}{Does the Genotype data have map information for StageWise.}
+\item{map}{Logical; if TRUE, genotype data includes map information for StageWise.}
 
-\item{min.minor.allele}{How many individuals for a minor allele in StageWise.}
+\item{min.minor.allele}{Minimum count of individuals required for a minor allele.}
 
-\item{dominance}{Should dominance effects be calculated by StageWise.}
+\item{dominance}{Logical; if TRUE, calculates dominance effects in addition to additive effects.}
 }
 \value{
-File type 1 required by COMA.
+A data frame representing File type 1 required by COMA, containing marker effects.
 }
 \description{
-I need a function that will create input file 1 for COMA that has the marker effects and allele dosage.
+Creates input file 1 for COMA, containing marker effects and allele dosage information.
 }

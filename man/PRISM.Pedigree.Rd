@@ -7,11 +7,13 @@
 PRISM.Pedigree(data)
 }
 \arguments{
-\item{data}{CSV of PRISM exported pedigree history.}
+\item{data}{A CSV file containing the PRISM-exported pedigree history.}
 }
 \value{
-Three column pedigree dataframe properly formated.
+A three-column pedigree dataframe with the columns: \code{id} (individual), \code{parent1} (female parent), and \code{parent2} (male parent).
 }
 \description{
-PRISM is the standard database system in the commercial sector (or a variant based off of it). PRISM is capable of exporting Pedigree History from a defined History Start. This function will allow you to create a complete three column pedigree dataframe from the PRISM export to use with COMA.file.2 for generating a pedigree kinship matrix. The PRISM export must contain the following columns; "Pedigree", "PedId", "Female PedId", and "Male PedId".
+PRISM is a database system commonly used in the commercial sector for pedigree tracking. This function processes an export from PRISM to create a standardized three-column pedigree dataframe
+(individual, female parent, male parent) suitable for generating a kinship matrix with COMA.file.2.
+The PRISM export must contain the columns "Pedigree", "PedId", "Female PedId", and "Male PedId".
 }

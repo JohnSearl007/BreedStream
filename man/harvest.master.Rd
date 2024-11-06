@@ -20,33 +20,36 @@ harvest.master(
 )
 }
 \arguments{
-\item{Location}{Location name for the data.}
+\item{Location}{Character; the name of the location (environment) for the data.}
 
-\item{Design.File}{Filename for the Design.File.}
+\item{Design.File}{Filename (or path) for the design file containing experimental design details.}
 
-\item{Combine.File}{Filename for the Combine.File.}
+\item{Combine.File}{Filename (or path) for the raw Harvest Master output file.}
 
-\item{Fixed}{Character for Fixed Terms, "id_1" is the default.}
+\item{Fixed}{Character vector for fixed terms; "id_1" is the default.}
 
-\item{Random}{Character for Random Terms.}
+\item{Random}{Character vector for random terms.}
 
-\item{Moisture}{Numeric for the standard moisture content.}
+\item{Moisture}{Numeric; the standard moisture content to adjust weights (default is 15.5).}
 
-\item{Bushel}{Numeric for the standard weight of a bushel.}
+\item{Bushel}{Numeric; standard weight of a bushel (default is 56).}
 
-\item{Plot.Length}{Numeric for the length of the plot in feet.}
+\item{Plot.Length}{Numeric; the length of each plot in feet (default is 22.5).}
 
-\item{Row.Spacing}{Numeric for the spacing of rows in inches.}
+\item{Row.Spacing}{Numeric; spacing of rows in inches (default is 30).}
 
-\item{Plot.Rows}{Numeric for the number of rows in the plot.}
+\item{Plot.Rows}{Numeric; the number of rows in each plot (default is 2).}
 
-\item{nest.terms}{List of character vectors to be nested.}
+\item{nest.terms}{List of character vectors specifying terms to be nested.}
 
-\item{nest.name}{Character vector or new nesting term name(s).}
+\item{nest.name}{Character vector specifying new name(s) for nesting term(s).}
 }
 \value{
-Dataframe that is properly formated and has had the yield calculated.
+A data frame formatted for StageWise, with calculated yield values.
 }
 \description{
-This function will take the raw output file directly off of a H2 Harvest Master system with the Mirus Software and apply proper formatting so that the output is ready for StageWise. The user must provide a Design File that has columns "plot", "range", "row" that ties the Harvest Master output to that of the respective experimental design features for said plot such as Block. User must specify the location (environment).
+Processes raw output from an H2 Harvest Master system with Mirus Software, applying formatting and calculations to
+prepare the data for use in StageWise. Requires a design file with columns "plot", "range", and "row" that links
+the Harvest Master data to experimental design features such as blocks. The location (environment) of the data
+collection must be specified.
 }
