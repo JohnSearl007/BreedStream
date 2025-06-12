@@ -12,7 +12,7 @@ H.Matrix_Optimized(
   Fixed,
   Random,
   blend.lower = 1e-05,
-  blend.upper = 0.05,
+  blend.upper = 0.2,
   ploidy = 2,
   max.iter = 100,
   map = TRUE,
@@ -24,10 +24,8 @@ H.Matrix_Optimized(
   covariates = NULL,
   mask = NULL,
   method = NULL,
-  numCores = 2,
-  weight.vector.length = 2,
   non.add = "none",
-  max_global_size = 1e+10
+  tol = 1e-04
 )
 }
 \arguments{
@@ -45,7 +43,7 @@ H.Matrix_Optimized(
 
 \item{blend.lower}{Lower limit of the A matrix contribution for blending (default is 1e-5).}
 
-\item{blend.upper}{Upper limit of the A matrix contribution for blending (default is 0.05).}
+\item{blend.upper}{Upper limit of the A matrix contribution for blending (default is 0.20).}
 
 \item{ploidy}{Integer specifying the ploidy level of the species (default is 2).}
 
@@ -61,27 +59,23 @@ H.Matrix_Optimized(
 
 \item{min.minor.allele}{Minimum number of individuals with the minor allele for StageWise (default is 5).}
 
-\item{fix.eff.marker}{Marker effect argument for StageWise.}
+\item{fix.eff.marker}{Marker effect argument for StageWise (default is NULL).}
 
-\item{covariates}{Covariate argument for StageWise.}
+\item{covariates}{Covariate argument for StageWise (default is NULL).}
 
-\item{mask}{Logical; if TRUE, StageWise masks some of the data.}
+\item{mask}{Logical; if TRUE, StageWise masks some of the data (default is NULL).}
 
-\item{method}{Method argument for StageWise.}
-
-\item{numCores}{Number of cores for parallel processing (default is 2).}
-
-\item{weight.vector.length}{Number of blending weights to test (default is 2).}
+\item{method}{Method argument for StageWise (default is NULL).}
 
 \item{non.add}{Specifies handling of non-additive genetic effects (default is "none").}
 
-\item{max_global_size}{Memory allocation limit for global options (default is 10e+09).}
+\item{tol}{Tolerance level for optimization convergence (default is 1e-4).}
 }
 \value{
-A StageWise prep object containing the optimal H Matrix with minimized AIC.
+A StageWise prep object containing the optimal H Matrix with minimized AIC and BLUPs prepared.
 }
 \description{
 Optimizes the blending weight for generating the H Matrix to minimize the AIC, by testing various proportions
-of blending. This function is designed to help select an optimal blending weight for a mixed model in ASReml-R
+of blending. This function is designed to help select an optimal blending weight for a mixed model in StageWise
 based on AIC. Convergence issues are generally related to the blending weight range, not iteration limits.
 }

@@ -1,4 +1,4 @@
-#' plot.coordinates
+#' coord.lookup
 #'
 #' This function assists in creating a Design File by taking a CSV map of plots arranged in field order (with cell A1 representing the range:row coordinate 1,1).
 #' It generates a dataframe containing each plot with its corresponding range and row field coordinates.
@@ -10,9 +10,9 @@
 #' @importFrom reshape2 melt
 #' @export
 
-plot.coordinates <- function(Field.Map) {
+coord.lookup <- function(Field.Map) {
   # Read the CSV file without headers as the data layout represents coordinates
-  data <- data.table::fread(Field.Map, header = FALSE)
+  data <- data.table::fread(Field.Map, header = TRUE)
 
   # Convert the data to a matrix to facilitate melting
   data_matrix <- as.matrix(data)
