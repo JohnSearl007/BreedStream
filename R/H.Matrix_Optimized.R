@@ -5,8 +5,8 @@
 #' based on AIC. Convergence issues are generally related to the blending weight range, not iteration limits.
 #'
 #' @param pheno.data Data frame containing phenotype data for StageWise.
-#' @param geno.data Data frame containing genotype data for StageWise.
-#' @param pedigree.data Data frame containing pedigree data for StageWise.
+#' @param geno.data Data frame containing genotype data for StageWise. (default is NULL)
+#' @param pedigree.data Data frame containing pedigree data for StageWise. (default is NULL)
 #' @param trait Character vector of trait(s) to be passed to StageWise.
 #' @param Fixed Formula or list of fixed effects to be passed to StageWise.
 #' @param Random Formula or list of random effects to be passed to StageWise.
@@ -33,11 +33,11 @@
 #' @importFrom stats optimize
 #' @export
 
-H.Matrix_Optimized <- function(pheno.data, geno.data, pedigree.data, trait, Fixed, Random,
-         blend.lower = 1e-5, blend.upper = 0.20, ploidy = 2, max.iter = 100,
-         map = TRUE, dominance = FALSE, workspace = "12Gb", pworkspace = "12Gb",
-         min.minor.allele = 5, fix.eff.marker = NULL, covariates = NULL,
-         mask = NULL, method = NULL, non.add = "none", tol = 1e-4) {
+H.Matrix_Optimized <- function(pheno.data, geno.data = NULL, pedigree.data = NULL, trait, Fixed, Random,
+                               blend.lower = 1e-5, blend.upper = 0.20, ploidy = 2, max.iter = 100,
+                               map = TRUE, dominance = FALSE, workspace = "12Gb", pworkspace = "12Gb",
+                               min.minor.allele = 5, fix.eff.marker = NULL, covariates = NULL,
+                               mask = NULL, method = NULL, non.add = "none", tol = 1e-4) {
 
   # Check for valid blending weight range
   if (blend.lower > blend.upper) {
@@ -57,27 +57,45 @@ H.Matrix_Optimized <- function(pheno.data, geno.data, pedigree.data, trait, Fixe
   # Define function to optimize (only used if optimization is needed)
   optimize_blend <- function(w) {
     tryCatch({
-      geno <- suppressMessages(suppressWarnings(
-        StageWise::read_geno(geno.data, ploidy = ploidy, map = map,
-                             min.minor.allele = min.minor.allele,
-                             ped = pedigree.data, w = w, dominance = dominance)
-      ))
-      ans <- suppressMessages(suppressWarnings(
-        StageWise::Stage2(data = model$blues, vcov = model$vcov, geno = geno,
-                          non.add = non.add, workspace = c(workspace, pworkspace),
-                          max.iter = max.iter, pairwise = TRUE,
-                          fix.eff.marker = fix.eff.marker, covariates = covariates)
-      ))
-      cat(sprintf("Blending weight (w): %.6f, AIC: %.2f\n", w, ans$aic))
-      return(ans$aic)
+      if (is.null(geno.data)) {
+        ans <- suppressMessages(suppressWarnings(
+          StageWise::Stage2(data = model$blues, vcov = model$vcov, geno = NULL,
+                            non.add = non.add, workspace = c(workspace, pworkspace),
+                            max.iter = max.iter, pairwise = TRUE,
+                            fix.eff.marker = fix.eff.marker, covariates = covariates)
+        ))
+        cat(sprintf("No blending (geno.data is NULL), AIC: %.2f\n", ans$aic))
+        return(ans$aic)
+      } else {
+        geno <- suppressMessages(suppressWarnings(
+          StageWise::read_geno(geno.data, ploidy = ploidy, map = map,
+                               min.minor.allele = min.minor.allele,
+                               ped = pedigree.data, w = w, dominance = dominance)
+        ))
+        ans <- suppressMessages(suppressWarnings(
+          StageWise::Stage2(data = model$blues, vcov = model$vcov, geno = geno,
+                            non.add = non.add, workspace = c(workspace, pworkspace),
+                            max.iter = max.iter, pairwise = TRUE,
+                            fix.eff.marker = fix.eff.marker, covariates = covariates)
+        ))
+        cat(sprintf("Blending weight (w): %.6f, AIC: %.2f\n", w, ans$aic))
+        return(ans$aic)
+      }
     }, error = function(e) {
-      cat(sprintf("Blending weight (w): %.6f, AIC: Inf (convergence failed)\n", w))
+      if (is.null(geno.data)) {
+        cat("No blending (geno.data is NULL), AIC: Inf (convergence failed)\n")
+      } else {
+        cat(sprintf("Blending weight (w): %.6f, AIC: Inf (convergence failed)\n", w))
+      }
       return(Inf)
     })
   }
 
   # Determine optimal blending weight
-  if (blend.lower < blend.upper) {
+  if (is.null(geno.data)) {
+    optimal_weight <- NA
+    print("No genotype data provided, skipping blending optimization.")
+  } else if (blend.lower < blend.upper) {
     # Optimize blending weight when a range is provided
     opt_result <- optimize(optimize_blend, interval = c(blend.lower, blend.upper),
                            maximum = FALSE, tol = tol)
@@ -89,16 +107,22 @@ H.Matrix_Optimized <- function(pheno.data, geno.data, pedigree.data, trait, Fixe
     print(paste0("Using user-provided blending weight: ", optimal_weight))
   }
 
-  # Save the optimal weight to file
-  utils::write.table(optimal_weight, file = "optimal_weight.txt",
-                     row.names = FALSE, col.names = FALSE, quote = FALSE)
+  # Save the optimal weight to file (only if applicable)
+  if (!is.na(optimal_weight)) {
+    utils::write.table(optimal_weight, file = "optimal_weight.txt",
+                       row.names = FALSE, col.names = FALSE, quote = FALSE)
+  }
 
   # Generate final H matrix with optimal weight
-  genoH <- suppressMessages(suppressWarnings(
-    StageWise::read_geno(geno.data, ploidy = ploidy, map = map,
-                         min.minor.allele = min.minor.allele,
-                         ped = pedigree.data, w = optimal_weight, dominance = dominance)
-  ))
+  if (is.null(geno.data)) {
+    genoH <- NULL
+  } else {
+    genoH <- suppressMessages(suppressWarnings(
+      StageWise::read_geno(geno.data, ploidy = ploidy, map = map,
+                           min.minor.allele = min.minor.allele,
+                           ped = pedigree.data, w = optimal_weight, dominance = dominance)
+    ))
+  }
 
   # Run Stage 2 with optimal H
   final_ans <- suppressMessages(suppressWarnings(
@@ -116,4 +140,3 @@ H.Matrix_Optimized <- function(pheno.data, geno.data, pedigree.data, trait, Fixe
 
   return(prep)
 }
-

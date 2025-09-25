@@ -6,8 +6,8 @@
 \usage{
 H.Matrix_Optimized(
   pheno.data,
-  geno.data,
-  pedigree.data,
+  geno.data = NULL,
+  pedigree.data = NULL,
   trait,
   Fixed,
   Random,
@@ -31,9 +31,9 @@ H.Matrix_Optimized(
 \arguments{
 \item{pheno.data}{Data frame containing phenotype data for StageWise.}
 
-\item{geno.data}{Data frame containing genotype data for StageWise.}
+\item{geno.data}{Data frame containing genotype data for StageWise. (default is NULL)}
 
-\item{pedigree.data}{Data frame containing pedigree data for StageWise.}
+\item{pedigree.data}{Data frame containing pedigree data for StageWise. (default is NULL)}
 
 \item{trait}{Character vector of trait(s) to be passed to StageWise.}
 
